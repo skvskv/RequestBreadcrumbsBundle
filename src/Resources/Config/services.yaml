@@ -1,0 +1,34 @@
+parameters:
+  breadcrumb.header: 'X-Breadcrumb'
+services:
+  _defaults:
+    autowire: true
+    public: true
+
+  # Adds breadcrumb uid to Monolog
+  skvskv\LogBreadcrumbsBundle\Log\ProvidesBreadcrumbToMonolog:
+    tags: [{ name: monolog.processor }]
+
+  # Сервис генерации идентификатора для трассирования на основе http-запроса
+  skvskv\LogBreadcrumbsBundle\Service\BasicUidService:
+    arguments:
+      $headerName: '%breadcrumb.header%'
+    tags:
+      - {name: 'kernel.reset', method: 'reset'}
+
+  # Provide breadcrumb uid per request
+  skvskv\LogBreadcrumbsBundle\Service\UidServiceInterface:
+    alias: BasicUidService
+
+  # Adds breadcrumb uid as response header
+  skvskv\LogBreadcrumbsBundle\EventSubscriber\ProvidesBreadcrumbInApplicationHttpResponse:
+    arguments:
+      $headerName: '%breadcrumb.header%'
+    tags: ['kernel.event_subscriber']
+
+  # Adds breadcrumb uid request header to guzzle-emitted requests
+  skvskv\LogBreadcrumbsBundle\EventListener\ProvidesBreadcrumbForGuzzleCommunication:
+    arguments:
+      $headerName: '%breadcrumb.header%'
+    tags:
+      - {name: 'kernel.event_listener', event: 'eight_points_guzzle.pre_transaction', method: 'onEightPointsGuzzleRequest'}

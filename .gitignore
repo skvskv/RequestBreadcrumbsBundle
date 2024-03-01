@@ -1,0 +1,9 @@
+vendor
+composer.lock
+.idea
+.phpstan
+phpstan.neon
+phpcs.xml
+phpunit.xml
+.phpunit.result.cache
+coverage

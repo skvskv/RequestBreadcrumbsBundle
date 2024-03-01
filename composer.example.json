@@ -1,0 +1,14 @@
+{
+  "name": "MyProject",
+  "autoload": {
+    "psr-4": {
+      "MyProject\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/skvskv/RequestBreadcrumbsBundle.git"
+    }
+  ]
+}
