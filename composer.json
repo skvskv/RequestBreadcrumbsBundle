@@ -40,10 +40,21 @@
     "eightpoints/guzzle-bundle": "^7.4"
   },
   "require-dev": {
+    "symfony/console": "^4.4|^5",
     "roave/security-advisories": "dev-latest",
     "squizlabs/php_codesniffer": "^3.5",
     "phpstan/phpstan": "^0.12.92",
     "phpunit/phpunit": "^9.3",
     "phpstan/phpstan-phpunit": "^0.12.21"
+  },
+  "scripts": {
+    "syntax-yaml": "vendor/bin/yaml-lint -v src/ test/",
+    "syntax-php": "find src/ test/ -type f -iname '*.php' -print0 | xargs -0 -L1 -P4 -- php -l -f",
+    "syntax-js": "find src/ test/ -type f -iname '*.js' -print0 | xargs -0 -L1 -P4 -- node -c "
+  },
+  "scripts-descriptions": {
+    "syntax-yaml": "Syntax check YAML files recursively in dirs: src/ test/",
+    "syntax-php": "Syntax check PHP files recursively in dirs: src/ test/",
+    "syntax-js": "Syntax check JS files recursively in dirs: src/ test/"
   }
 }
